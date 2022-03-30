@@ -4,13 +4,25 @@ export type Action =
   | AddListAction
   | AddTaskAction
   | MoveListAction
-  | SetDraggedItem;
+  | SetDraggedItem
+  | MoveTaskAction;
 
 export enum Actions {
   ADDLIST = "ADD_LIST",
   ADDTASK = "ADD_TASK",
   MOVELIST = "MOVE_LIST",
   SETDRAGGEDITEM = "SET_DRAGGED_ITEM",
+  MOVETASK = "MOVE_TASK",
+}
+
+interface MoveTaskAction {
+  type: Actions.MOVETASK;
+  payload: {
+    draggedItemId: string;
+    hoveredItemId: string | null;
+    sourceColumnId: string;
+    targetColumnId: string;
+  };
 }
 
 interface AddListAction {
@@ -60,4 +72,19 @@ export const moveList = (draggedId: string, hoverId: string): Action => ({
 export const setDraggedItem = (draggedItem: DragItem | null): Action => ({
   type: Actions.SETDRAGGEDITEM,
   payload: draggedItem,
+});
+
+export const moveTask = (
+  draggedItemId: string,
+  hoveredItemId: string | null,
+  sourceColumnId: string,
+  targetColumnId: string
+): Action => ({
+  type: Actions.MOVETASK,
+  payload: {
+    draggedItemId,
+    hoveredItemId,
+    sourceColumnId,
+    targetColumnId,
+  },
 });
