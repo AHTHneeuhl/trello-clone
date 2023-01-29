@@ -1,4 +1,4 @@
-import { createContext, useContext, Dispatch, FC } from "react";
+import { createContext, useContext, Dispatch } from "react";
 import { AppState, List, Task, appStateReducer } from "./appStateReducer";
 import { Action } from "./actions";
 import { useImmerReducer } from "use-immer";
@@ -32,11 +32,15 @@ type AppStateContextProps = {
   dispatch: Dispatch<Action>;
 };
 
+type TAppStateContextProps = {
+  children: React.ReactNode;
+};
+
 const AppStateContext = createContext<AppStateContextProps>(
   {} as AppStateContextProps
 );
 
-export const AppStateProvider: FC = ({ children }) => {
+export const AppStateProvider = ({ children }: TAppStateContextProps) => {
   const [state, dispatch] = useImmerReducer(appStateReducer, appData);
 
   const { draggedItem, lists } = state;
